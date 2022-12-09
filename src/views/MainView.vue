@@ -1,9 +1,22 @@
+<!--
+ * @Author: 米叔 849299509@qq.com
+ * @Date: 2022-12-09 10:21:55
+ * @LastEditors: 米叔 849299509@qq.com
+ * @LastEditTime: 2022-12-09 14:42:33
+ * @FilePath: \leaf\src\views\MainView.vue
+ * @Description: 
+ * 
+ * Copyright (c) 2022 by 米叔 849299509@qq.com, All Rights Reserved. 
+-->
+
 <template>
   <!-- 修改 -->
   <el-dialog
     v-model="dialogVisible"
     title="Edit"
     width="30%"
+    @close="handleClose"
+
   >
   <el-input v-model="part.name" placeholder="Please input">
     <template #prepend>name</template>
@@ -63,6 +76,8 @@
   v-model="adddialogVisible"
   title="Add"
   width="30%"
+  @close="handleClose"
+
 >
 <el-input  v-model="part.name" >
   <template #prepend>name</template>
@@ -110,6 +125,7 @@
   </template>
 </el-dialog>
   <el-button type="primary" @click="adddialogVisible = true">添加</el-button>
+  <!-- 数据到渲染表格中 -->
   <el-table :data="copyTable" border="true" style="width: 100%">
     <el-table-column type="expand">
       <template #default="props">
@@ -161,6 +177,7 @@
       
     </el-table-column>
   </el-table>
+  <!-- 简易分页 -->
   <el-pagination background layout="prev, pager, next"
   @current-change="handleCurrentChange" 
   @next-click="ppage(1)" @prev-click="ppage(-1)"
@@ -175,20 +192,28 @@ export default {
     const vue = reactive({
         tableData:[],
         copyTable:[],
+        // 数据总数
         totle:0,
+        // 当前页数
         page :1,
+        // 模态框的显示与否
         dialogVisible:false,
         adddialogVisible:false,
+        // 放入模态框的信息
         part:[],
+        // 朋友信息
         friends:[],
+        // 
         name: '',
         address: '',
         Telephone: 0,
     }) 
+    // 页数发生变化调用
     const handleCurrentChange = (number)=>{
         vue.page = number
         fenye(number)
     }
+    // 获取所有的数据
     const aaa = ()=>{
       axios.request({
           method:'get',
@@ -199,9 +224,11 @@ export default {
           fenye(vue.page)
       })
     } 
+    // 生命周期
     onMounted(()=>{
       aaa()
     })
+    // 增加数据
     const add = ()=>{
       axios.request({
           method:'post',
@@ -221,14 +248,17 @@ export default {
       })
       vue.adddialogVisible = false
     }
+    // 编辑数据  把数据放入模态框中
     const handleEdit = (y)=>{
         vue.dialogVisible = true
         vue.part = y
     }
+    // 删除树叶一个朋友
     const friendshandleDelete = (y)=>{
       console.log(y)
       vue.part.friends.splice(y,1) 
     }
+    // 删除某条树叶信息
     const handleDelete = (y)=>{
       let f = confirm(`确认删除${y.name}吗`)
       if(f===true)
@@ -239,6 +269,7 @@ export default {
         aaa()
       })
     }
+    // 更新数据  覆盖树叶信息
     const put = ()=>{
       axios.request({
           method:'put',
@@ -258,6 +289,7 @@ export default {
       })
       vue.dialogVisible = false
     }
+    // 简易分页
     const fenye = (n)=>{
       vue.copyTable = []
       let y = n*10
@@ -267,6 +299,7 @@ export default {
         vue.copyTable.push(vue.tableData[i])
       }
     }
+    // 编辑树叶中的 增加一个朋友
     const onAddItem = () => {
       vue.part.friends.push({
         name: vue.name,
@@ -277,6 +310,7 @@ export default {
       vue.address = ''
       vue.Telephone  = ''
     }
+    // 增加树叶中的 增加一个朋友
     const addonAddItem = ()=>{
       vue.friends.push({
         name: vue.name,
@@ -287,10 +321,15 @@ export default {
       vue.address = ''
       vue.Telephone  = ''
     }
+    // 关闭模态框触发
+    const handleClose = ()=>{
+        vue.part = ''
+    }
+    // 暴漏出去
     return{
       ...toRefs(vue),handleCurrentChange,
       handleDelete,handleEdit,put,add,onAddItem
-      ,friendshandleDelete,addonAddItem
+      ,friendshandleDelete,addonAddItem,handleClose
     }
   }
 }
@@ -299,9 +338,3 @@ export default {
 <style>
 
 </style>
-
-<!-- 
-1 1-10
-2 11-20
-3 21-30 
--->
