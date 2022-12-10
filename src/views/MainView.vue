@@ -2,7 +2,7 @@
  * @Author: 米叔 849299509@qq.com
  * @Date: 2022-12-09 10:21:55
  * @LastEditors: 米叔 849299509@qq.com
- * @LastEditTime: 2022-12-09 14:42:33
+ * @LastEditTime: 2022-12-10 18:03:58
  * @FilePath: \leaf\src\views\MainView.vue
  * @Description: 
  * 
@@ -74,7 +74,7 @@
   <!-- 添加 -->
   <el-dialog
   v-model="adddialogVisible"
-  title="Add"
+  title="Collect"
   width="30%"
   @close="handleClose"
 
@@ -124,32 +124,37 @@
     </span>
   </template>
 </el-dialog>
-  <el-button type="primary" @click="adddialogVisible = true">添加</el-button>
+<!-- 添加 -->
+  <el-button type="primary" @click="adddialogVisible = true">搜集</el-button> <el-divider direction="vertical" /> 风中，落叶旋转，久久不肯落地，似乎不明白自己过早凋零的生命为何会在夏末初秋是就走想完结。
+  
   <!-- 数据到渲染表格中 -->
   <el-table :data="copyTable" border="true" style="width: 100%">
     <el-table-column type="expand">
       <template #default="props">
         <div>
           <el-row >
-            <el-col :span="6">
+            <el-col :span="12">
               <h1><el-tag type="success">name</el-tag> {{ props.row.name }}</h1>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="12">
               <el-tag type="info">Telephone</el-tag>{{ props.row.Telephone }}
             </el-col>
-            <el-col :span="6">
+            <el-col :span="12">
               <el-tag type="warning">Address</el-tag>{{ props.row.address }}
             </el-col>
-            <el-col :span="6">
+            <el-col :span="12">
               <el-tag type="danger">date</el-tag> {{ props.row.date }}
             </el-col>
           </el-row>
+          <el-divider border-style="dashed" />
           <el-row >
             <el-col >
-              <el-tag>座右铭</el-tag>
-              <el-check-tag checked style="margin-right: 8px">{{props.row.motto}}</el-check-tag>
+              <el-tag>墓志铭</el-tag>
+              <el-divider direction="vertical" /> 
+              <span>{{props.row.motto}}</span>
             </el-col>
           </el-row>
+          <el-divider border-style="dashed" /> 
           <h3>Friends</h3>
           <el-table :data="props.row.friends" border="true">
             <el-table-column label="Name" prop="name" />
@@ -162,19 +167,18 @@
     <el-table-column prop="id" label="ID" width="50px"/>
     <el-table-column prop="name" label="名字" width="100px"/>
     <el-table-column prop="Telephone" label="电话" />
-    <el-table-column prop="address" label="掉落地址" />
-    <el-table-column prop="date" label="掉落日期" />
+    <el-table-column prop="address" label="凋零地址" />
+    <el-table-column prop="date" label="凋零日期" />
     <el-table-column label="Operations">
       <template #default="scope">
-        <el-button size="small"   @click="handleEdit(scope.row)">Edit</el-button>
+        <el-button size="small"  @click="handleEdit(scope.row)">Edit</el-button>
         <el-button
           size="small"
           type="danger"
           @click="handleDelete(scope.row)"
-          >Delete</el-button
-        >
+          >Delete</el-button>
+          <el-button @click="goDetail(scope.row)" size="small" type="success">Detail</el-button>
       </template>
-      
     </el-table-column>
   </el-table>
   <!-- 简易分页 -->
@@ -187,6 +191,7 @@
 <script>
 import axios from 'axios'
 import {onMounted, reactive , toRefs }  from 'vue'
+import router from '../router/index'
 export default {
   setup(){
     const vue = reactive({
@@ -325,11 +330,15 @@ export default {
     const handleClose = ()=>{
         vue.part = ''
     }
+    const goDetail = (y)=>{
+      router.push(`/detail/${y.id}`)
+    }
     // 暴漏出去
     return{
       ...toRefs(vue),handleCurrentChange,
       handleDelete,handleEdit,put,add,onAddItem
-      ,friendshandleDelete,addonAddItem,handleClose
+      ,friendshandleDelete,addonAddItem,handleClose,
+      goDetail
     }
   }
 }

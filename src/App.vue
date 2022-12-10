@@ -2,7 +2,7 @@
  * @Author: 米叔 849299509@qq.com
  * @Date: 2022-12-09 08:36:25
  * @LastEditors: 米叔 849299509@qq.com
- * @LastEditTime: 2022-12-09 14:42:42
+ * @LastEditTime: 2022-12-10 17:40:34
  * @FilePath: \leaf\src\App.vue
  * @Description: 
  * 
@@ -13,6 +13,10 @@
     <el-container>
       <el-header class="main">
         <el-row class="row-bg" justify="center">
+          
+          <el-col :span="5" >
+            🍃🍃落叶信息管理
+          </el-col>
           <el-col :span="2">
             <!-- 路由进入 -->
             <router-link active-class="active" to="/">main</router-link> 
