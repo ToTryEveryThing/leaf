@@ -2,7 +2,7 @@
  * @Author: 米叔 849299509@qq.com
  * @Date: 2022-12-09 10:21:55
  * @LastEditors: 米叔 849299509@qq.com
- * @LastEditTime: 2022-12-10 18:03:58
+ * @LastEditTime: 2022-12-11 16:08:28
  * @FilePath: \leaf\src\views\MainView.vue
  * @Description: 
  * 
@@ -126,7 +126,7 @@
 </el-dialog>
 <!-- 添加 -->
   <el-button type="primary" @click="adddialogVisible = true">搜集</el-button> <el-divider direction="vertical" /> 风中，落叶旋转，久久不肯落地，似乎不明白自己过早凋零的生命为何会在夏末初秋是就走想完结。
-  
+  <el-button style="float:right;" @click="loginOut">退出登录</el-button>
   <!-- 数据到渲染表格中 -->
   <el-table :data="copyTable" border="true" style="width: 100%">
     <el-table-column type="expand">
@@ -134,7 +134,7 @@
         <div>
           <el-row >
             <el-col :span="12">
-              <h1><el-tag type="success">name</el-tag> {{ props.row.name }}</h1>
+              <h1><el-tag  type="success">name</el-tag> {{ props.row.name }}</h1>
             </el-col>
             <el-col :span="12">
               <el-tag type="info">Telephone</el-tag>{{ props.row.Telephone }}
@@ -235,6 +235,7 @@ export default {
     })
     // 增加数据
     const add = ()=>{
+      console.log(vue.part)
       axios.request({
           method:'post',
           url:'http://localhost:3000/leaf',
@@ -249,7 +250,8 @@ export default {
       }).then(function(){  
         aaa()
         alert("添加成功")
-        vue.part = []
+        vue.part = [],
+        vue.friends = []
       })
       vue.adddialogVisible = false
     }
@@ -333,12 +335,16 @@ export default {
     const goDetail = (y)=>{
       router.push(`/detail/${y.id}`)
     }
+    const loginOut = function(){
+      localStorage.setItem("message","")
+      router.push('/login')
+    }
     // 暴漏出去
     return{
       ...toRefs(vue),handleCurrentChange,
       handleDelete,handleEdit,put,add,onAddItem
       ,friendshandleDelete,addonAddItem,handleClose,
-      goDetail
+      goDetail,loginOut
     }
   }
 }
