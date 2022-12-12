@@ -10,7 +10,7 @@
 -->
 ```
 安装 json-server
-cnpm i  json-server -g
+npm i  json-server -g
 运行
 json-server --watch db.json
 安装 Element-plus
@@ -19,6 +19,9 @@ npm install element-plus --save
 npm install axios --save
 安装 router
 npm install vue-router@4
+
+
+登录账号密码 都是 admin
 ```
 # 图片展示
  ###  主页面
