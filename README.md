@@ -15,10 +15,8 @@ npm i  json-server -g
 json-server --watch db.json
 安装 Element-plus
 npm install element-plus --save
-安装 axios
-npm install axios --save
-安装 router
-npm install vue-router@4
+安装依赖包
+mpm i
 
 
 登录账号密码 都是 admin
